@@ -6,5 +6,5 @@ import rikkeisoft.com.itemsale.model.Item;
 import java.util.List;
 
 public interface ItemService {
-    Page<Item> getAllItem(String keyword, Integer pageNo, Integer pageSize);
+    Page<Item> getAllItem(String keyword, Integer pageNo, Integer pageSize,String sort);
 }

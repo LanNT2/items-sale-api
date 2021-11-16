@@ -24,9 +24,10 @@ public class ItemController {
     public ResponseEntity<Page<Item>> getAllItem(
             @RequestParam(name = "keyword", required = false) String keyword,
             @RequestParam(name = "page", required = false, defaultValue = "1") Integer pageNo,
-            @RequestParam(name = "limit", required = false, defaultValue = "5") Integer pageSize
+            @RequestParam(name = "limit", required = false, defaultValue = "5") Integer pageSize,
+            @RequestParam(name = "sort", required = false, defaultValue = "createdAt:DESC") String sort
     ) {
-        Page<Item> pageItem = itemService.getAllItem(keyword, pageNo, pageSize);
+        Page<Item> pageItem = itemService.getAllItem(keyword, pageNo, pageSize,sort);
         return new ResponseEntity<>(pageItem, HttpStatus.OK);
     }
 }

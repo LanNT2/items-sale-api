@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import rikkeisoft.com.itemsale.model.Item;
 import rikkeisoft.com.itemsale.repository.ItemRepository;
 import rikkeisoft.com.itemsale.service.ItemService;
+import rikkeisoft.com.itemsale.util.SortUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,10 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Page<Item> getAllItem(String keyword, Integer pageNo, Integer pageSize) {
+    public Page<Item> getAllItem(String keyword, Integer pageNo, Integer pageSize,String sort) {
+
         if (keyword == null || "".equals(keyword)){
-            return  itemRepository.findAll(PageRequest.of(pageNo-1, pageSize, Sort.by(Sort.Direction.DESC, "createdAt")));
+            return  itemRepository.findAll(PageRequest.of(pageNo-1, pageSize, SortUtil.getSort(sort)));
         }else{
             return itemRepository.relativeSearching(keyword, PageRequest.of(pageNo-1, pageSize));
         }
