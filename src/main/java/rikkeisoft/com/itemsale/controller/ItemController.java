@@ -1,16 +1,13 @@
 package rikkeisoft.com.itemsale.controller;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import rikkeisoft.com.itemsale.dto.ItemDTO;
+import rikkeisoft.com.itemsale.exception.ItemNotFoundException;
 import rikkeisoft.com.itemsale.model.Item;
 import rikkeisoft.com.itemsale.service.ItemService;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -29,5 +26,15 @@ public class ItemController {
     ) {
         Page<Item> pageItem = itemService.getAllItem(keyword, pageNo, pageSize,sort);
         return new ResponseEntity<>(pageItem, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Item> getItem(@PathVariable("id") Integer id)throws ItemNotFoundException {
+        return new ResponseEntity<>(itemService.getItem(id),HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Item> updateItem(@PathVariable("id") Integer id, @RequestBody ItemDTO item) throws ItemNotFoundException{
+        return new ResponseEntity<>(itemService.updateItem(id,item),HttpStatus.OK);
     }
 }
