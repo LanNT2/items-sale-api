@@ -4,13 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import rikkeisoft.com.itemsale.constant.CommonConstant;
+import rikkeisoft.com.itemsale.helper.Helper;
+import rikkeisoft.com.itemsale.model.Item;
+import rikkeisoft.com.itemsale.util.DateTimeUtil;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 public class ItemDTO {
-    private long id;
+    private Integer id;
 
     private String name;
 
@@ -26,12 +30,14 @@ public class ItemDTO {
 
     private String deletedAt;
 
+    private Integer isDeleted;
 
-    public long getId() {
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -89,6 +95,28 @@ public class ItemDTO {
 
     public void setDeletedAt(String deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public static ItemDTO mapItem( Item item){
+        ItemDTO itemDTO =ItemDTO.builder()
+                .id(item.getId())
+                .createdAt(DateTimeUtil.instantToString(item.getCreatedAt(), CommonConstant.FORMAT_DATETIME))
+                .name(item.getName())
+                .price(item.getPrice())
+                .description(item.getDescription())
+                .imageUrl(item.getImageUrl())
+                .isDeleted(item.getDeleted())
+                .build();
+        if(item.getUpdatedAt()!=null) itemDTO.setUpdatedAt(DateTimeUtil.instantToString(item.getUpdatedAt(),CommonConstant.FORMAT_DATETIME));
+        if(item.getDeletedAt()!=null) itemDTO.setDeletedAt(DateTimeUtil.instantToString(item.getDeletedAt(),CommonConstant.FORMAT_DATETIME));
+        return itemDTO;
     }
 }
 

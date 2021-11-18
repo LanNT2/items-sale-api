@@ -37,6 +37,9 @@ public class Item {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
+    @Column(name="isDeleted")
+    private Integer isDeleted;
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -99,5 +102,12 @@ public class Item {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Integer getDeleted() {
+        return isDeleted;
+    }
+    public void setDeleted(Integer deleted) {
+        isDeleted = deleted;
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import rikkeisoft.com.itemsale.dto.ItemDTO;
+import rikkeisoft.com.itemsale.dto.ItemUpdateDTO;
 import rikkeisoft.com.itemsale.exception.ItemNotFoundException;
 import rikkeisoft.com.itemsale.helper.Helper;
 import rikkeisoft.com.itemsale.model.Item;
@@ -23,33 +24,36 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Page<Item> getAllItem(String keyword, Integer pageNo, Integer pageSize, String sort) {
-
+    public Page<ItemDTO> getAllItem(String keyword, Integer pageNo, Integer pageSize, String sort) {
+        Page<Item> pageItem = null;
         if (keyword == null || "".equals(keyword)) {
-            return itemRepository.findAll(PageRequest.of(pageNo - 1, pageSize, SortUtil.getSort(sort)));
+            pageItem = itemRepository.findByIsDeleted(0, PageRequest.of(pageNo - 1, pageSize, SortUtil.getSort(sort)));
+            return Helper.mapToPageItemDTO(pageItem);
         } else {
-            return itemRepository.relativeSearching(keyword, PageRequest.of(pageNo - 1, pageSize));
+            pageItem = itemRepository.relativeSearching(keyword, 0, PageRequest.of(pageNo - 1, pageSize));
+            return Helper.mapToPageItemDTO(pageItem);
         }
     }
 
     @Override
-    public Item getItem(Integer id) throws ItemNotFoundException {
-        Optional<Item> itemOpt = itemRepository.findById(id);
+    public ItemDTO getItem(Integer id) throws ItemNotFoundException {
+        Optional<Item> itemOpt = itemRepository.findAllByIdAndIsDeleted(id, 0);
         if (itemOpt.isPresent()) {
-            return itemOpt.get();
+            ItemDTO itemDTO = Helper.mapToItemDTO(itemOpt.get());
+            return itemDTO;
         }
         throw new ItemNotFoundException();
     }
 
     @Override
-    public Item updateItem(Integer id, ItemDTO itemDTO) throws ItemNotFoundException {
-        Optional<Item> itemOpt = itemRepository.findById(id);
+    public ItemDTO updateItem(Integer id, ItemUpdateDTO itemUpdateDTO) throws ItemNotFoundException {
+        Optional<Item> itemOpt = itemRepository.findAllByIdAndIsDeleted(id, 0);
         if (itemOpt.isPresent()) {
-            Item item = Helper.mapToItem(itemDTO);
+            Item item = Helper.mapToItem(itemUpdateDTO);
             item.setCreatedAt(itemOpt.get().getCreatedAt());
             item.setUpdatedAt(Instant.now());
             itemRepository.save(item);
-            return item;
+            return Helper.mapToItemDTO(item);
         }
         throw new ItemNotFoundException();
     }
