@@ -52,6 +52,7 @@ public class ItemServiceImpl implements ItemService {
             Item item = Helper.mapToItem(itemUpdateDTO);
             item.setCreatedAt(itemOpt.get().getCreatedAt());
             item.setUpdatedAt(Instant.now());
+            item.setDeleted(0);
             itemRepository.save(item);
             return Helper.mapToItemDTO(item);
         }
