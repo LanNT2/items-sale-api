@@ -58,4 +58,18 @@ public class ItemServiceImpl implements ItemService {
         }
         throw new ItemNotFoundException();
     }
+
+    @Override
+    public ItemDTO deleteItem(Integer id) throws ItemNotFoundException {
+        Optional<Item> itemOpt = itemRepository.findAllByIdAndIsDeleted(id, 0);
+        if (itemOpt.isPresent()) {
+            Item item = itemOpt.get();
+            item.setUpdatedAt(Instant.now());
+            item.setDeleted(1);
+            item.setDeletedAt(Instant.now());
+            itemRepository.save(item);
+            return Helper.mapToItemDTO(item);
+        }
+        throw new ItemNotFoundException();
+    }
 }
