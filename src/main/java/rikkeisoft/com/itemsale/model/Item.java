@@ -1,10 +1,18 @@
 package rikkeisoft.com.itemsale.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.Instant;
-import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,7 +27,7 @@ public class Item {
     @Column(name = "name")
     private String name;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
     @Column(name = "price")
@@ -37,8 +45,16 @@ public class Item {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @Column(name="isDeleted")
+    @Column(name = "is_deleted")
     private Integer isDeleted;
+
+    @ManyToOne
+    @JoinColumn(name="cart_id", nullable=false)
+    private Cart cart;
+
+    @ManyToOne
+    @JoinColumn(name="order_id", nullable=false)
+    private Order order;
 
     public void setId(Integer id) {
         this.id = id;
@@ -109,5 +125,25 @@ public class Item {
     }
     public void setDeleted(Integer deleted) {
         isDeleted = deleted;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+    public Order getOrder() {
+        return order;
+    }
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
