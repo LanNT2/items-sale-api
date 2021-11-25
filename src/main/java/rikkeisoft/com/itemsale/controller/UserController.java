@@ -56,7 +56,7 @@ public class UserController {
 
     @PostMapping("/cart/add/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> addItemToCart(@PathVariable("id") Integer userId, @RequestParam(name = "itemId", required = true) Integer itemId) throws ItemNotFoundException {
+    public ResponseEntity<String> addItemToCart(@PathVariable("id") Integer userId, @RequestBody Integer itemId) throws ItemNotFoundException {
         return new ResponseEntity<>(userService.addItemToCart(itemId, userId), HttpStatus.OK);
     }
 
