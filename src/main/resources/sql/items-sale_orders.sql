@@ -16,34 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `users`
+-- Table structure for table `orders`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
+CREATE TABLE `orders` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(50) DEFAULT NULL,
-  `image_url` varchar(255) DEFAULT NULL,
+  `created_at` datetime(6) DEFAULT NULL,
+  `deleted_at` datetime(6) DEFAULT NULL,
   `is_deleted` int DEFAULT NULL,
-  `password` varchar(120) DEFAULT NULL,
-  `phone_number` varchar(255) DEFAULT NULL,
-  `username` varchar(20) DEFAULT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UKr43af9ap4edm43mmtq01oddj6` (`username`),
-  UNIQUE KEY `UK6dotkott2kjsp8vw4d0m25fb7` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FK32ql8ubntj5uh44ph9659tiih` (`user_id`),
+  CONSTRAINT `FK32ql8ubntj5uh44ph9659tiih` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `orders`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'lannt@gmail.com','86842448-dff4-44e0-ad83-e18cf24f187e_img2.jpg',0,'$2a$10$XbDxXl1sRRg9bdJgdAd6xuy.jr02mlWC2NNfpqQ2bpD6efYmFj.4K',NULL,'lannt'),(2,'phananh@gmail.com','a71a9640-7ddf-45ea-b2fb-0a7db304faef_img2.jpg',0,'$2a$10$SoEOPqAj6nk1MKL5DO.GC.QojgTy5hLNqJ5omq54aA8rtuKHcblDS',NULL,'phananh');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-25 19:04:17
+-- Dump completed on 2021-11-25 19:04:18

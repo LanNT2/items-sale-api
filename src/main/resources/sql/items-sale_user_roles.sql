@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `user_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_roles` (
-  `user_id` bigint NOT NULL,
+  `user_id` int NOT NULL,
   `role_id` int NOT NULL,
   PRIMARY KEY (`user_id`,`role_id`),
   KEY `FKh8ciramu9cc9q3qcqiv4ue8a6` (`role_id`),
@@ -38,7 +38,7 @@ CREATE TABLE `user_roles` (
 
 LOCK TABLES `user_roles` WRITE;
 /*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (1,1);
+INSERT INTO `user_roles` VALUES (1,1),(2,3);
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-19 17:43:38
+-- Dump completed on 2021-11-25 19:04:16
