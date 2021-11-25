@@ -7,7 +7,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import rikkeisoft.com.itemsale.dto.ItemDTO;
 import rikkeisoft.com.itemsale.dto.ItemUpdateDTO;
+import rikkeisoft.com.itemsale.exception.ItemAlreadyExistException;
 import rikkeisoft.com.itemsale.exception.ItemNotFoundException;
+import rikkeisoft.com.itemsale.model.Item;
 import rikkeisoft.com.itemsale.service.ItemService;
 
 @RestController
@@ -36,6 +38,12 @@ public class ItemController {
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<ItemDTO> getItem(@PathVariable("id") Integer id) throws ItemNotFoundException {
         return new ResponseEntity<>(itemService.getItem(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<String> createItem(@RequestBody ItemDTO itemDTO) throws ItemAlreadyExistException {
+        return new ResponseEntity<>(itemService.createItem(itemDTO), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")

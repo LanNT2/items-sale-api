@@ -5,11 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import rikkeisoft.com.itemsale.exception.ExceptionResponse;
-import rikkeisoft.com.itemsale.exception.InvalidFileExtensionException;
-import rikkeisoft.com.itemsale.exception.InvalidPassword;
-import rikkeisoft.com.itemsale.exception.ItemNotFoundException;
-import rikkeisoft.com.itemsale.exception.UserNotFoundException;
+import rikkeisoft.com.itemsale.exception.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -54,6 +50,22 @@ public class GlobalExceptionHandler {
         ExceptionResponse response = new ExceptionResponse();
         response.setDateTime(LocalDateTime.now());
         response.setMessage("Invalid password");
+        ResponseEntity<Object> entity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return entity;
+    }
+    @ExceptionHandler(ItemAlreadyExistException.class)
+    public ResponseEntity<Object> handleExceptions(ItemAlreadyExistException exception, WebRequest webRequest) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setDateTime(LocalDateTime.now());
+        response.setMessage("Item Already Exist");
+        ResponseEntity<Object> entity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return entity;
+    }
+    @ExceptionHandler(CartNotFoundException.class)
+    public ResponseEntity<Object> handleExceptions(CartNotFoundException exception, WebRequest webRequest) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setDateTime(LocalDateTime.now());
+        response.setMessage("Item Already Exist");
         ResponseEntity<Object> entity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         return entity;
     }

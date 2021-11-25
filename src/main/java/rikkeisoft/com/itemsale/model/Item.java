@@ -4,14 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @NoArgsConstructor
@@ -24,9 +18,11 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
     @Column(name = "name")
     private String name;
 
+    @NotNull
     @Column(name = "description")
     private String description;
 
@@ -48,81 +44,74 @@ public class Item {
     @Column(name = "is_deleted")
     private Integer isDeleted;
 
-    @ManyToOne
-    @JoinColumn(name="cart_id", nullable=false)
-    private Cart cart;
-
-    @ManyToOne
-    @JoinColumn(name="order_id", nullable=false)
-    private Order order;
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public Instant getDeletedAt() {
         return deletedAt;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
     }
 
     public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = deletedAt;
     }
 
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public Integer getDeleted() {
         return isDeleted;
     }
+
     public void setDeleted(Integer deleted) {
         isDeleted = deleted;
     }
@@ -130,20 +119,9 @@ public class Item {
     public Integer getIsDeleted() {
         return isDeleted;
     }
+
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 
-    public Cart getCart() {
-        return cart;
-    }
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-    public Order getOrder() {
-        return order;
-    }
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 }

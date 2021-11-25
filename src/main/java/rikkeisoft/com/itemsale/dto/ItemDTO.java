@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import rikkeisoft.com.itemsale.constant.CommonConstant;
-import rikkeisoft.com.itemsale.helper.Helper;
 import rikkeisoft.com.itemsale.model.Item;
 import rikkeisoft.com.itemsale.util.DateTimeUtil;
 
@@ -32,6 +31,22 @@ public class ItemDTO {
 
     private Integer isDeleted;
 
+    public static ItemDTO mapItem(Item item) {
+        ItemDTO itemDTO = ItemDTO.builder()
+                .id(item.getId())
+                .createdAt(DateTimeUtil.instantToString(item.getCreatedAt(), CommonConstant.FORMAT_DATETIME))
+                .name(item.getName())
+                .price(item.getPrice())
+                .description(item.getDescription())
+                .imageUrl(item.getImageUrl())
+                .isDeleted(item.getDeleted())
+                .build();
+        if (item.getUpdatedAt() != null)
+            itemDTO.setUpdatedAt(DateTimeUtil.instantToString(item.getUpdatedAt(), CommonConstant.FORMAT_DATETIME));
+        if (item.getDeletedAt() != null)
+            itemDTO.setDeletedAt(DateTimeUtil.instantToString(item.getDeletedAt(), CommonConstant.FORMAT_DATETIME));
+        return itemDTO;
+    }
 
     public Integer getId() {
         return id;
@@ -100,23 +115,9 @@ public class ItemDTO {
     public Integer getIsDeleted() {
         return isDeleted;
     }
+
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
-    }
-
-    public static ItemDTO mapItem( Item item){
-        ItemDTO itemDTO =ItemDTO.builder()
-                .id(item.getId())
-                .createdAt(DateTimeUtil.instantToString(item.getCreatedAt(), CommonConstant.FORMAT_DATETIME))
-                .name(item.getName())
-                .price(item.getPrice())
-                .description(item.getDescription())
-                .imageUrl(item.getImageUrl())
-                .isDeleted(item.getDeleted())
-                .build();
-        if(item.getUpdatedAt()!=null) itemDTO.setUpdatedAt(DateTimeUtil.instantToString(item.getUpdatedAt(),CommonConstant.FORMAT_DATETIME));
-        if(item.getDeletedAt()!=null) itemDTO.setDeletedAt(DateTimeUtil.instantToString(item.getDeletedAt(),CommonConstant.FORMAT_DATETIME));
-        return itemDTO;
     }
 }
 

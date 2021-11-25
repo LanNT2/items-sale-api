@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import rikkeisoft.com.itemsale.dto.ItemDTO;
 import rikkeisoft.com.itemsale.dto.ItemUpdateDTO;
+import rikkeisoft.com.itemsale.exception.ItemAlreadyExistException;
 import rikkeisoft.com.itemsale.exception.ItemNotFoundException;
 import rikkeisoft.com.itemsale.helper.Helper;
 import rikkeisoft.com.itemsale.model.Item;
@@ -57,6 +58,19 @@ public class ItemServiceImpl implements ItemService {
             return Helper.mapToItemDTO(item);
         }
         throw new ItemNotFoundException();
+    }
+
+    @Override
+    public String createItem(ItemDTO itemDTO) throws ItemAlreadyExistException {
+        Optional<Item> itemOpt = itemRepository.findByNameAndIsDeleted(itemDTO.getName(),0);
+        if(itemOpt.isEmpty()){
+            Item item = Helper.mapToItem(itemDTO);
+            item.setCreatedAt(Instant.now());
+            item.setDeleted(0);
+            itemRepository.save(item);
+            return "Create success";
+        }
+        throw  new ItemAlreadyExistException();
     }
 
     @Override

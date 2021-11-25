@@ -4,14 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @NoArgsConstructor
@@ -24,7 +17,8 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany(mappedBy = "cart")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "items_carts", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
     private List<Item> items;
 
     @OneToOne
@@ -34,6 +28,7 @@ public class Cart {
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -41,13 +36,17 @@ public class Cart {
     public List<Item> getItems() {
         return items;
     }
+
     public void setItems(List<Item> items) {
         this.items = items;
     }
+
     public User getUser() {
         return user;
     }
+
     public void setUser(User user) {
         this.user = user;
     }
+
 }
